@@ -15,7 +15,6 @@ class SalaryData(BaseModel):
 @app.post("/salary")
 async def results(data: SalaryData):
     # The data is automatically validated and parsed into `SalaryData` instance
-    if 
     result = data.salary + data.bonus - data.taxes
     return {"message": "Data received successfully", "input": data, "result": result}
 

@@ -13,8 +13,8 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Or
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.ensemble import RandomForestRegressor 
 from sklearn.tree import DecisionTreeRegressor
-from catboost import CatBoostRegressor, Pool
-from xgboost import XGBRegressor
+#from catboost import CatBoostRegressor, Pool
+#from xgboost import XGBRegressor
 from sklearn.svm import SVR
 
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV, RandomizedSearchCV, cross_val_score
@@ -211,7 +211,8 @@ def models_polynomial(X,y):
 
     # Evaluate the model
     evaluation(y_test.to_numpy(), y_pred)
-
+    save_best_model(best_model, best_model.joblib)
+        
     return best_model, best_params
 
 def polynomial_simple(X,y):

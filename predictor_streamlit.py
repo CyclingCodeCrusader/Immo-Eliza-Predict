@@ -3,7 +3,7 @@ import time
 
 # Sidebar
 st.sidebar.title("Immo Eliza")
-st.sidebar.image("assets\BeCode Harmony Real Estate Logo.jpg", width=100)
+st.sidebar.image(r"assets\BeCode Harmony Real Estate Logo.jpg", width=100)
 
 st.sidebar.subheader('Web Scraper')
 st.sidebar.subheader('Data Cleaner')
@@ -14,7 +14,7 @@ st.sidebar.subheader('Predictor')
 # Input parameters
 container1 = st.container()
 col1,col2, col3=container1.columns([1,1,1])
-#col2.image("assets\house.jpg", width = 200)
+#col2.image(r"assets\house.jpg", width = 200)
 col2.subheader("Predictor")
 #container1.write("Welcome to the prediction tool of Immo Eliza. Below you can enter the information of the property you want to buy or sell. The prediction tool will return an estimate of what the ask price on ImmoWeb can be.")
 

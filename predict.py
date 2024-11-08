@@ -1,5 +1,8 @@
-import pickle
+
 import pandas as pd
+import joblib
+import pickle
+
 
 from functions.utils import open_pkl_as_dataframe
 from functions.modeller_functions import ordinal_encoding, OneHot_encoding
@@ -35,11 +38,14 @@ X = ordinal_encoding(X, to_encode_columns)
 # Part on one hot encoding
 X = OneHot_encoding(X, columns = ['province'])
 
-#models_linear(X,y)
-models_polynomial(X,y)
-#polynomial_simple(X,y)
-#models_treebased(X,y)
-#XGBoost(X,y)
 
-#save_best_model(best_model, file_path)
-#save_best_parameters(best_params, file_path)
+input_data = X
+model_file = "best_model.joblib"
+
+# Load the model from the file
+loaded_model = joblib.load(model_file)
+
+# Use the loaded model to make predictions
+predictions = loaded_model.predict(X)
+
+predictions.to_csv('predictions.csv', index=False)
