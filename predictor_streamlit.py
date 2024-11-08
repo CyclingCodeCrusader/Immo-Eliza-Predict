@@ -3,7 +3,7 @@ import time
 
 # Sidebar
 st.sidebar.title("Immo Eliza")
-st.sidebar.image(r"assets\BeCode Harmony Real Estate Logo.jpg", width=100)
+st.sidebar.image(r"assets\BeCodeHarmonyRealEstateLogo.jpg", width=100)
 
 st.sidebar.subheader('Web Scraper')
 st.sidebar.subheader('Data Cleaner')
