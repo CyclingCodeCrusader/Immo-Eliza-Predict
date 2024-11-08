@@ -14,7 +14,7 @@ async def root():
 
 @app.get("/multi/{value}")
 async def multiply(value: int):
-    return {"result": value * 2}
+    return {"result": value * 3}
 # Defining path operation for /name endpoint
 
 @app.get('/{name}')
@@ -42,6 +42,8 @@ async def results(data: SalaryData):
     result = data.salary + data.bonus - data.taxes
     return {"message": "Data received successfully", "input": data, "result": result}
 
+
+
 import streamlit as st
 import time
 
@@ -60,3 +62,5 @@ container1 = st.container()
 col1,col2, col3=container1.columns([1,1,1])
 #col2.image("assets\house.jpg", width = 200)
 col2.subheader("Predictor")
+
+
