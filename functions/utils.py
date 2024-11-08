@@ -5,14 +5,14 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-def open_file_as_dataframe(default_path):
+def open_csv_as_dataframe(default_path):
 
     # Load csv file from file dialog and generate pandas dataframe
     source = input("Select source. Load from file (F/f) or default location of webscraped file (D/d).")
     
     if source.lower() == "d":
         df = pd.read_csv(default_path, sep = ',')
-    elif source.lower() -- "f":
+    elif source.lower() == "f":
         df = pd.read_csv(filedialog.askopenfilename(), sep = ',')
     else:
         print("Wrong input.")

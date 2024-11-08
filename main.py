@@ -1,5 +1,5 @@
-"""
-with open("scripts/WebScraper.py", "r") as f:
+
+"""with open("scripts/WebScraper.py", "r") as f:
     WebScraper = f.read()
 
 exec(WebScraper)
@@ -13,10 +13,15 @@ exec(DataCleaner)
 with open("scripts/Analyzer.py", "r") as f:
     Analyzer = f.read()
 
-exec(Analyzer)"""
+exec(Analyzer)
+
 
 with open("scripts/Modeller.py", "r") as f:
     Modeller = f.read()
 
 exec(Modeller)
+"""
+with open("scripts/Predictor.py", "r") as f:
+    Predictor = f.read()
 
+exec(Predictor)

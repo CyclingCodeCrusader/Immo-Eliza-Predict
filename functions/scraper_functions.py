@@ -472,8 +472,7 @@ async def house_url_scraper_async(url :str, session :AsyncClient, max_retries=3,
                 property['locality_code'] = json_data['property']['location']['postalCode']
                 property['locality_latitude'] = json_data['property']['location']['latitude']
                 property['locality_longitude'] = json_data['property']['location']['longitude']
-                
-                
+                                
                 try: property['bedroom_count'] = json_data['property']['bedroomCount']
                 except TypeError: property['room_count'] = "None"
                 

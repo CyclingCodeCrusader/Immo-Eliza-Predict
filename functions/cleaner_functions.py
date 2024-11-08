@@ -128,7 +128,8 @@ def adjust_datatypes(df):
     for col in int_columns.columns:
         df[col] = df[col].astype('category')
 
-
+    df['street'] = df['street'].astype('str')
+    df['number'] = df['number'].astype('str')
 
     df['locality_code'] = df['locality_code'].astype('category')
 

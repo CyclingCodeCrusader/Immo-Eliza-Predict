@@ -21,7 +21,7 @@ from sklearn.model_selection import train_test_split, KFold, GridSearchCV, Rando
 
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error
 from sklearn.metrics import r2_score
-
+import joblib
 
 def create_Xy(df, predictor_columns, target_column):
 
@@ -144,22 +144,25 @@ def models_linear(X,y):
     # Retrieve the best model and parameters
     print("PERFORMANCE OF LINEAR REGRESSION MODELS: \n ----LinearRegression \n ----regularization: Ridge, Lasso, ElasticNet")
 
-    best_model = grid_search.best_estimator_
+    # Retrieve the best pipeline
+    best_pipeline = grid_search.best_estimator_
+
     best_params = grid_search.best_params_
     
-    print("Best model:", best_model)
+    print("Best model:", best_pipeline)
     print("Best parameters:", best_params)
 
-    print("Best model score on training set: ", best_model.score(X_train, y_train))
-    print("Best model score on test set: ",best_model.score(X_test, y_test))
+    print("Best model score on training set: ", best_pipeline.score(X_train, y_train))
+    print("Best model score on test set: ",best_pipeline.score(X_test, y_test))
 
     # Predict on test data using the best model
-    y_pred = best_model.predict(X_test)
+    y_pred = best_pipeline.predict(X_test)
     
     # Evaluate the model
     evaluation(y_test.to_numpy(), y_pred)
+    print(X_train)
 
-    return best_model, best_params
+    return best_pipeline
 
 def models_polynomial(X,y):
         
@@ -202,7 +205,6 @@ def models_polynomial(X,y):
     print("Best model:", best_model)
     print("Best parameters:", best_params)
 
-    best_model = grid_search.best_estimator_
     print("Best model score on training set: ", best_model.score(X_train, y_train))
     print("Best model score on test set: ", best_model.score(X_test, y_test))
 
@@ -211,8 +213,7 @@ def models_polynomial(X,y):
 
     # Evaluate the model
     evaluation(y_test.to_numpy(), y_pred)
-    save_best_model(best_model, best_model.joblib)
-        
+
     return best_model, best_params
 
 def polynomial_simple(X,y):

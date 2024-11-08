@@ -12,7 +12,7 @@ def get_province(locality_code):
     elif locality_code.startswith('2'):
         return 'Antwerp'
     elif locality_code.startswith('4'):
-        return 'Liège'
+        return 'Liege'
     elif locality_code.startswith('5'):
         return 'Namur'
     elif locality_code.startswith('6'):
@@ -39,7 +39,7 @@ def map_province(df):
 
 def assign_city_based_on_proximity(df, cities_data):
     # Creating a column for proximity to the 10 main Belgian cities:
-    cities_data = {'city': ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liège','Namur', 'Leuven', 'Mons', 'Aalst', 'Sint-Niklaas'],
+    cities_data = {'city': ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liege','Namur', 'Leuven', 'Mons', 'Aalst', 'Sint-Niklaas'],
                 'locality_latitude': [50.8503, 51.2211, 51.0543, 51.2093, 50.6050, 50.4674, 50.8798, 50.4542, 50.9403, 51.1449],
                 'locality_longitude': [4.3517, 4.4120, 3.7174, 3.2240, 5.5797, 4.8712, 4.7033, 3.9514, 4.0364, 4.1525],
                 'radius': [10 for x in range(10)]}
