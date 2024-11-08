@@ -7,6 +7,11 @@ from pydantic import BaseModel
 # Creating FastAPI instance
 app = FastAPI()
  
+@app.get("/")
+async def root():
+    """Route that returns 'Alive!' if the server runs."""
+    return {"Status": "Alive! Welcome ! This is local from VSCODE and FastApi."}
+
 # Creating class to define the request body
 # and the type hints of each attribute
 class request_body(BaseModel):
