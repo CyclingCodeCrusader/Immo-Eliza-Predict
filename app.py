@@ -41,3 +41,22 @@ async def results(data: SalaryData):
     # The data is automatically validated and parsed into `SalaryData` instance
     result = data.salary + data.bonus - data.taxes
     return {"message": "Data received successfully", "input": data, "result": result}
+
+import streamlit as st
+import time
+
+# Sidebar
+st.sidebar.title("Immo Eliza")
+st.sidebar.image("assets\BeCode Harmony Real Estate Logo.jpg", width=100)
+
+st.sidebar.subheader('Web Scraper')
+st.sidebar.subheader('Data Cleaner')
+st.sidebar.subheader('Data Analyzer')
+st.sidebar.subheader('Modeller')
+st.sidebar.subheader('Predictor')
+
+# Input parameters
+container1 = st.container()
+col1,col2, col3=container1.columns([1,1,1])
+#col2.image("assets\house.jpg", width = 200)
+col2.subheader("Predictor")
