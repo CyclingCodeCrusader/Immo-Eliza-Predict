@@ -19,3 +19,9 @@ RUN pip install -r requirements.txt
 # Run the app
 # Set host to 0.0.0.0 to make it run on the container's network
 CMD uvicorn app:app --host 0.0.0.0
+
+# Expose the port Streamlit will run on (Render uses port 10000)
+EXPOSE 10000
+
+# Command to run the Streamlit app
+CMD ["streamlit", "run", "predictor_streamlit.py", "--server.port=10000", "--server.address=0.0.0.0"]
