@@ -20,11 +20,11 @@ def get_province(locality_code):
     elif locality_code.startswith('7'):
         return 'Hainaut'
     elif locality_code.startswith('8'):
-        return 'West Flanders'
+        return 'West_Flanders'
     elif locality_code.startswith('9'):
-        return 'East Flanders'
+        return 'East_Flanders'
     elif locality_code.startswith('3'):
-        return 'Flemish Brabant' if int(locality_code) < 3500 else 'Limburg'
+        return 'Flemish_Brabant' if int(locality_code) < 3500 else 'Limburg'
     else:
         return None 
 

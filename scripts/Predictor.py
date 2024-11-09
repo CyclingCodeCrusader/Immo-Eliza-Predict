@@ -10,14 +10,15 @@ from functions.modeller_functions import ordinal_encoding, OneHot_encoding
 from functions.modeller_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
 from functions.modeller_functions import save_best_model, load_prediction_model
 
+
 # Load the model from the file
 loaded_pipeline = joblib.load('best_model_pipeline.joblib')
 
 # Create a new house 
 feature_names = ['bedroom_count', 'net_habitable_surface', 'facade_count', 'land_surface', 'has_assigned_city_10', 
                  'kitchen_type_ord_enc', 'building_condition_ord_enc', 'epc_ord_enc', 
-                 'province_Brabant_Wallon', 'province_Brussels', 'province_East Flanders', 'province_Flemish Brabant', 'province_Hainaut', 
-                 'province_Liege', 'province_Limburg', 'province_Luxembourg', 'province_Namur', 'province_West Flanders']
+                 'province_Brabant_Wallon', 'province_Brussels', 'province_East_Flanders', 'province_Flemish_Brabant', 'province_Hainaut', 
+                 'province_Liege', 'province_Limburg', 'province_Luxembourg', 'province_Namur', 'province_West_Flanders']
 
 new_house = np.array([3,200,4,500,1,3,3,3,0,0,1,0,0,0,0,0,0,0]).reshape(1,-1)
 
