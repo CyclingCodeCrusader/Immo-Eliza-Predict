@@ -15,7 +15,9 @@ from functions.modeller_functions import save_best_model, load_prediction_model
 
 # Creating FastAPI instance
 app = FastAPI()
- 
+
+
+
 @app.get("/")
 async def root():
     """Route that returns 'Alive!' if the server runs."""

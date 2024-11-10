@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import requests
 
 # Sidebar
 st.sidebar.title("Immo Eliza")
