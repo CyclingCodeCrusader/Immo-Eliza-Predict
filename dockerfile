@@ -21,8 +21,10 @@ RUN pip install -r requirements.txt
 #CMD uvicorn app:app --host 0.0.0.0
 
 # Expose ports for both FastAPI (internal) and Streamlit (public-facing)
-EXPOSE 10000  # Streamlit
-EXPOSE 8000   # FastAPI
+# FastAPI listens on port 8000
+# Streamlit listens on port 10000
+EXPOSE 8000   
+EXPOSE 10000  
 
 # Use a process manager to run both apps simultaneously
 #CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port 8000 & streamlit run predictor_streamlit.py --server.port=10000 --server.address=0.0.0.0"]
