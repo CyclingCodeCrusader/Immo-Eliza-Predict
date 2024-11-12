@@ -6,7 +6,7 @@ import geopandas as gpd
 
 from functions.utils import figure_barplots, figure_boxplots, barplot
 
-def get_province(locality_code):
+def map_province(locality_code):
     if locality_code.startswith('1'):
         return 'Brussels' if int(locality_code) < 1300 else 'Brabant_Wallon'
     elif locality_code.startswith('2'):
@@ -28,9 +28,9 @@ def get_province(locality_code):
     else:
         return None 
 
-def map_province(df):    
+def get_province(df):    
     # Creating the column province
-    df['province'] = df['locality_code'].apply(get_province)
+    df['province'] = df['locality_code'].apply(map_province)
 
     # Assigning the dtypes
     df['province'] = df['province'].astype('category')

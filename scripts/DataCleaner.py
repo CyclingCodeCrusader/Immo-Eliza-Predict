@@ -2,7 +2,7 @@ import pandas as pd
 
 from functions.cleaner_functions import cosmetics_duplicates, subtype_consolidation, missing_values, unnecessary_columns
 from functions.cleaner_functions import adjust_datatypes, mapping_subtypes, subtype_filter, plot_cleanup
-from functions.utils import open_csv_as_dataframe, save_dataframe_to_pkl, save_csv_pickle
+from functions.utils import open_csv_as_dataframe, create_pkl_from_df, save_csv_pickle
 
 
 df1 = open_csv_as_dataframe(default_path = r'data\after_scraping.csv')
@@ -25,7 +25,7 @@ df8, steps = subtype_filter(df7, steps)
 
 plot_cleanup(steps, grp="subtype")
 
-save_dataframe_to_pkl(df8, file_path = r'data\after_datacleaning.pkl') # Give dataframe to save, and path to file
+create_pkl_from_df(df8, file_path = r'data\after_datacleaning.pkl') # Give dataframe to save, and path to file
 
 print("Summary of dataframe shapes:")
 print(df1.shape)

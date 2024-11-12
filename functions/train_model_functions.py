@@ -240,7 +240,7 @@ def polynomial_simple(X,y):
     plt.scatter(X_train['net_habitable_surface'], y_train, color = "green")
     plt.scatter(X_test['net_habitable_surface'], y_test, color = "blue")
     plt.scatter(X_test['net_habitable_surface'], y_pred, color="red")
-    plt.title("Polynomial regression with degree "+str(degree))
+    plt.title("Polynomial regression with degree "+ str(degree))
     plt.show()"""
 
     # Evaluate the model

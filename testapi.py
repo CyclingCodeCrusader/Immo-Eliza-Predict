@@ -7,10 +7,10 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from functions.utils import open_pkl_as_dataframe
-from functions.modeller_functions import ordinal_encoding, OneHot_encoding
-from functions.modeller_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
-from functions.modeller_functions import save_best_model, load_prediction_model
+from functions.utils import create_df_from_pkl
+from functions.train_model_functions import ordinal_encoding, OneHot_encoding
+from functions.train_model_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
+from functions.train_model_functions import save_best_model, load_prediction_model
 
 
 # Creating FastAPI instance

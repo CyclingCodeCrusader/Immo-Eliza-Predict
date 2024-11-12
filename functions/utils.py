@@ -28,14 +28,14 @@ def dataframe_to_csv(list :list, file_path :str):
 
     return
 
-def save_dataframe_to_pkl(df, file_path):
+def create_pkl_from_df(df, file_path):
 
     with open(file_path, 'wb') as f:
         pickle.dump(df, f)
 
     return
 
-def open_pkl_as_dataframe(default_path):
+def create_df_from_pkl(default_path):
     import pickle
     # Load csv file from file dialog and generate pandas dataframe
     source = input("Select source of pickle file. Load from file (F/f) or default file path (D/d).")
@@ -69,6 +69,12 @@ def save_csv_pickle(df):
     else:
         csv_or_pickle = input("Try again. Output as csv or pickle? 1 for csv file, 2 for pickle")
     
+    return
+
+def save_joblib(data, file_path):
+    import joblib
+    joblib.dump(data, file_path)
+    print('Data stored: ', data, "Stored in: ", file_path)
     return
 
 def barplot(df,feature):
