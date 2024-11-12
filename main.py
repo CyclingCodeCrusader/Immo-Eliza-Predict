@@ -15,12 +15,12 @@ with open("scripts/Analyzer.py", "r") as f:
 
 exec(Analyzer)
 
-
+"""
 with open("scripts/Modeller.py", "r") as f:
     Modeller = f.read()
 
 exec(Modeller)
-"""
+
 with open("scripts/Predictor.py", "r") as f:
     Predictor = f.read()
 

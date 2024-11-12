@@ -24,7 +24,7 @@ to_encode_columns = ['kitchen_type','building_condition','epc']
 
 # Save our target column in the variable y, and the predictor columns in the variable X
 target_column = ['price']
-predictor_columns = numerical_columns + to_encode_columns + ['province'] + ['has_assigned_city_10']
+predictor_columns = numerical_columns + to_encode_columns + ['has_assigned_city_10'] #['province'] + 
 # Create feature matrix X and target matrix y. This is done here, 
 # because it is easier to perform label encoding and onehot encoding on the feature matrix instaed of the full dataframe, 
 # so that you don't have to include all the newly generated encoded columns 
@@ -34,7 +34,7 @@ X, y = create_Xy(df1, predictor_columns, target_column)
 X = ordinal_encoding(X, to_encode_columns)
 
 # Part on one hot encoding
-X = OneHot_encoding(X, columns = ['province'])
+#X = OneHot_encoding(X, columns = ['province'])
 
 print(X.info())
 

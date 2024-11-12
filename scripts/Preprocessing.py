@@ -1,7 +1,7 @@
 import pandas as pd
 from tkinter import filedialog
 from functions.utils import open_csv_as_dataframe, save_dataframe_to_pkl, open_pkl_as_dataframe, barplot
-from functions.analyzer_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
+from functions.preprocessing_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
 
 df8 = open_pkl_as_dataframe(default_path = r'data\after_datacleaning.pkl')
 
