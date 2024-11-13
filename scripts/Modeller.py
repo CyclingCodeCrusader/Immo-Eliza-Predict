@@ -1,35 +1,20 @@
-import pickle
+import numpy as np
 import pandas as pd
-import joblib
 
-from functions.utils import create_df_from_pkl
-from functions.train_model_functions import ordinal_encoding, OneHot_encoding
-from functions.train_model_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
-from functions.train_model_functions import save_best_model, load_prediction_model
-from functions.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
-from functions.preprocessing_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
-from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures, OneHotEncoder
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV, RandomizedSearchCV, cross_val_score
 
-from sklearn.metrics import root_mean_squared_error, mean_absolute_error
-
-from sklearn.pipeline import Pipeline, make_pipeline
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures
-from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
-from sklearn.ensemble import RandomForestRegressor 
-from sklearn.tree import DecisionTreeRegressor
+#from sklearn.ensemble import RandomForestRegressor 
+#from sklearn.tree import DecisionTreeRegressor
 #from catboost import CatBoostRegressor, Pool
 #from xgboost import XGBRegressor
-from sklearn.svm import SVR
+#from sklearn.svm import SVR
 
-from sklearn.model_selection import train_test_split, KFold, GridSearchCV, RandomizedSearchCV, cross_val_score
+from sklearn.metrics import r2_score, root_mean_squared_error, mean_absolute_error
 
-from sklearn.metrics import root_mean_squared_error, mean_absolute_error
-from sklearn.metrics import r2_score
 from joblib import load, dump
-import numpy as np
 
 class Modeller():
     """
@@ -264,8 +249,6 @@ class Modeller():
         return self.prediction
 
     def evaluation(self, y_test, y_pred):
-
-        import numpy as np
 
         """Calculates the Mean Signed Error.
 

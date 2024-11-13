@@ -13,16 +13,11 @@ st.sidebar.subheader('Modeller')
 st.sidebar.subheader('Predictor')
 
 
-# Define options for the radio button
-options1 = ["Option 1", "Option 2", "Option 3"]
-options2 = ["Option 1", "Option 2", "Option 3"]
-
 # Input parameters
 container1 = st.container()
 col1,col2, col3=container1.columns([1,1,1])
 #col2.image(r"assets\house.jpg", width = 200)
 col2.subheader("Predictor")
-#container1.write("Welcome to the prediction tool of Immo Eliza. Below you can enter the information of the property you want to buy or sell. The prediction tool will return an estimate of what the ask price on ImmoWeb can be.")
 
 container = st.container()
 col1, col2, col3, col4 = container.columns([1, 1, 1, 1])  # Adjust proportions of columns
