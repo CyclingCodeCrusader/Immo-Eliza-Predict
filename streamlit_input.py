@@ -27,7 +27,7 @@ col2.subheader("Predictor")
 container = st.container()
 col1, col2, col3, col4 = container.columns([1, 1, 1, 1])  # Adjust proportions of columns
 
-# Selection of type of property. NOte that nothing is done with this, as there are only houses in the database I use.
+# Selection of type of property. Note that nothing is done with this, as there are only houses in the database I use.
 house_options = ['House', 'Appartment']
 radio_type = col1.radio('Type', house_options, key = 'radio_type', index = 0)
 
@@ -40,14 +40,7 @@ col1, col2, col3, col4 = container.columns([1, 1, 1, 1])  # Adjust proportions o
 
 locality_code = col1.number_input('Postal code', value = 8000, key = 'input_postal_code1')
 
-has_assigned_city_10 = col3.checkbox("Close to a major city", 'Yes', key = "checkbox_city")
-
-#list_of_cities = ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liège', 'Namur', 'Leuven', 'Mons', 'Aalst', 'Sint-Niklaas']
-#col1.write("List of the cities:")
-#col1.write(str(list_of_cities))
-#ordinals_kitchen = [['Not installed', 'Installed', 'Semi equipped', 'Hyper equipped']]  # Order for each ordinal column
-#ordinals_building_condition = [['To renovate', 'To be done up', 'Good', 'Just renovated', 'As new']]  # Order for each ordinal column
-#ordinals_epc = [['F', 'E', 'D', 'C', 'B', 'A']]  # Order for each ordinal column
+col3.write("")
 
 container = st.container()
 col1, col2, col3, col4 = container.columns([1, 1, 1, 1])  # Adjust proportions of columns
@@ -87,8 +80,7 @@ if col2.button('Submit for prediction', icon=":material/query_stats:"):
     payload = {"bedroom_count": bedroom_count, 
                "net_habitable_surface": net_habitable_surface, 
                "facade_count": facade_count, 
-               "land_surface": land_surface, 
-               #"has_assigned_city_10": has_assigned_city_10,
+               "land_surface": land_surface,
                "epc_ord_enc": epc_ord_enc, 
                "building_condition_ord_enc": building_condition_ord_enc, 
                "kitchen_type_ord_enc": kitchen_type_ord_enc, 

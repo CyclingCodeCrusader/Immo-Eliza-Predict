@@ -28,7 +28,7 @@ class SelectionModel(BaseModel):
 @app.post("/api/predict")
 def receive_selection(selection: SelectionModel):
     # Process the index (e.g., create a response message)
-    response_message1 = f"You selected option number: {selection.bedroom_count} and {selection.facade_count} and {selection.net_habitable_surface} and {selection.land_surface}. Ordinal selected are: {selection.kitchen_type_ord_enc} and {selection.building_condition_ord_enc} and {selection.epc_ord_enc}"
+    response_message1 = f"You have selected the following options:\n -Bedrooms: {selection.bedroom_count}\n -Facades: {selection.facade_count}\n -Net habitable surface: {selection.net_habitable_surface}\n -Plot surface: {selection.land_surface}\n -Kitchen type: {selection.kitchen_type_ord_enc}\n -Building condition: {selection.building_condition_ord_enc}\n -EPC: {selection.epc_ord_enc}"
     
     # Making the data in a form suitable for prediction
     test_data = [[
