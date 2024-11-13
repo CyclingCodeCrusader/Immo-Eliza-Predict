@@ -6,7 +6,8 @@ from functions.utils import open_csv_as_dataframe, create_pkl_from_df, save_csv_
 
 
 df1 = open_csv_as_dataframe(default_path = r'data\after_scraping.csv')
-
+print(df1.info())
+exit
 # Perform cosmetic cleaning and remove duplicates
 df2 = cosmetics_duplicates(df1) # Remove stuff such as blank spaces, and remove duplicates
 

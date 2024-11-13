@@ -13,10 +13,6 @@ st.sidebar.subheader('Modeller')
 st.sidebar.subheader('Predictor')
 
 
-
-# Define the FastAPI backend URL
-API_URL = "http://localhost:8000/api/predict"
-
 # Define options for the radio button
 options1 = ["Option 1", "Option 2", "Option 3"]
 options2 = ["Option 1", "Option 2", "Option 3"]
@@ -82,10 +78,21 @@ kitchen_type_ord_enc = kitchen_type_ord_enc_options.index(kitchen_type_ord_enc_s
 container = st.container()
 col1, col2, col3 = container.columns([1, 1, 1])  # Adjust proportions of columns
 
+# Define the FastAPI backend URL
+API_URL = "http://localhost:8000/api/predict"
+
 # Display a button to submit the selection
 if col2.button('Submit for prediction', icon=":material/query_stats:"):
     # Prepare the payload with the index
-    payload = {"bedroom_count": bedroom_count, "net_habitable_surface": net_habitable_surface, "facade_count": facade_count, "land_surface": land_surface, "has_assigned_city_10": has_assigned_city_10, "epc_ord_enc": epc_ord_enc, "building_condition_ord_enc": building_condition_ord_enc, "kitchen_type_ord_enc": kitchen_type_ord_enc, "locality_code": locality_code}
+    payload = {"bedroom_count": bedroom_count, 
+               "net_habitable_surface": net_habitable_surface, 
+               "facade_count": facade_count, 
+               "land_surface": land_surface, 
+               #"has_assigned_city_10": has_assigned_city_10,
+               "epc_ord_enc": epc_ord_enc, 
+               "building_condition_ord_enc": building_condition_ord_enc, 
+               "kitchen_type_ord_enc": kitchen_type_ord_enc, 
+               "locality_code": locality_code}
     
     # Send a POST request to the FastAPI backend
     response = requests.post(API_URL, json=payload)

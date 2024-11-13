@@ -1,7 +1,4 @@
 import pickle
-import pandas as pd
-import joblib
-
 from functions.utils import create_df_from_pkl
 from functions.train_model_functions import ordinal_encoding, OneHot_encoding
 from functions.train_model_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
@@ -9,7 +6,7 @@ from functions.train_model_functions import save_best_model, load_prediction_mod
 from functions.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
 from functions.preprocessing_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
 from sklearn.pipeline import Pipeline, make_pipeline
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures, OneHotEncoder
 from sklearn.model_selection import train_test_split, KFold, GridSearchCV, RandomizedSearchCV, cross_val_score
 
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error
@@ -34,8 +31,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
+from  geopy.geocoders import Nominatim
 
 from functions.utils import figure_barplots, figure_boxplots, barplot
+
 class Processor():
     """
     Create a class `Processor` to that contains attributes and methods to be performed on the training dataset and the new data(set).
@@ -76,11 +75,14 @@ class Processor():
         self.ordinal_encoded_columns = []
         #self.ordinal_encoded_columns = ['kitchen_type_encoded', 'building_condition_encoded','epc_encoded']
         self.onehot_columns = ['province']
-        self.to_encode_columns = ['kitchen_type','building_condition','epc']
+        self.ordinal_encode_columns = ['kitchen_type','building_condition','epc']
 
         self.target_column = ['price']
-        self.predictor_columns = self.numerical_columns + self.to_encode_columns + ['has_assigned_city_10'] # + ['province']
+        self.predictor_columns = self.numerical_columns + self.ordinal_encode_columns + ['has_assigned_city_10'] + ['province']
 
+        self.predict_columns_payload = ['bedroom_count', 'net_habitable_surface', 'facade_count', 'land_surface', 
+                        'kitchen_type_ord_enc', 'building_condition_ord_enc', 'epc_ord_enc', 'locality_code'] #'has_assigned_city_10', 
+        
     def map_province(self, locality_code):
         if locality_code.startswith('1'):
             return 'Brussels' if int(locality_code) < 1300 else 'Brabant_Wallon'
@@ -110,7 +112,7 @@ class Processor():
         # Assigning the dtypes
         self.df['province'] = self.df['province'].astype('category')
         
-        barplot(self.df, feature='province')                                          # call barplot function in utils. plots a barplot of the valuecounts in province
+        #barplot(self.df, feature='province')                                          # call barplot function in utils. plots a barplot of the valuecounts in province
         
         return self.df
 
@@ -157,60 +159,69 @@ class Processor():
 
         return self.df
 
-    def create_Xy(self):
-        """ Save the target column in the variable y, and the predictor columns in the variable X
-            Create feature matrix X and target matrix y. This is done here, 
-            because it is easier to perform label encoding and onehot encoding on the feature matrix instaed of the full dataframe, 
-            so that you don't have to include all the newly generated encoded columns """
-        X = self.df[self.predictor_columns]
-        y = self.df[self.target_column]
+    def get_geolocation(self):
+        # Creating the columns longitude and longitude
+        self.df['locality_latitude'] = self.df['locality_code'].apply(self.zip_to_geoloc_lat)
+        self.df['locality_longitude'] = self.df['locality_code'].apply(self.zip_to_geoloc_long)
+        return self.df
 
-        return X, y
-
-    def ordinal_encoding(self, X):
-        #This categorical data has a natural order we encode it in a way that reflects this ordering. We will use ordinal Encoding.
+    def zip_to_geoloc_lat(self, locality_code):
+        # Initialize Nominatim API
+        geolocator = Nominatim(user_agent="zip_to_geolocation")
         
-        # Define the custom order for the 'Kitchen_type' column
-        ordinals_kitchen = [['Not installed', 'Installed', 'Semi equipped', 'Hyper equipped']]  # Order for each ordinal column
-        ordinals_building_condition = [['To renovate', 'To be done up', 'Good', 'Just renovated', 'As new']]  # Order for each ordinal column
-        ordinals_epc = [['F', 'E', 'D', 'C', 'B', 'A']]  # Order for each ordinal column
-
-        ordinals_list = [ordinals_kitchen, ordinals_building_condition, ordinals_epc]
-        #print(type(X))
-
-        for i, col in enumerate(self.to_encode_columns):
-            # Initialize OrdinalEncoder with the specified categories
-            encoder = OrdinalEncoder(categories=ordinals_list[i])
-            name_ord_enc = f"{col}_ord_enc"
-            self.ordinal_encoded_columns.append(name_ord_enc)
-            # Fit and transform the column
-            #print(col, type(X[[col]]))
-            #X[name_ord_enc] = encoder.fit_transform(X[[col]]) # syntax from solution of error message dfmi.loc[:, ('one', 'second')]
-
-            X = X.assign(**{name_ord_enc: encoder.fit_transform(X[[col]])})
-
-            #f"{col}_ord_enc" name_ord_enc
-            X = X.drop(columns = col)
-
-        return X
-
-    def onehot_encoding(self, X):
+        # Get location based on ZIP code
+        location = geolocator.geocode({"postalcode": int(locality_code), "country": "Belgium"})
         
-        for col in self.onehot_columns:
-            # One-hot encode in the dataframe
-            X = pd.get_dummies(X, columns=[col], drop_first=True)
+        if location:
+            return location.latitude
+        else:
+            return None
 
-        return X
+    def zip_to_geoloc_long(self, locality_code):
+        # Initialize Nominatim API
+        geolocator = Nominatim(user_agent="zip_to_geolocation")
+        
+        # Get location based on ZIP code
+        location = geolocator.geocode({"postalcode": int(locality_code), "country": "Belgium"})
+        
+        if location:
+            return location.longitude
+        else:
+            return None
 
-    def run_workflow(self):
+    def zip_to_geolocation(self, locality_code):
+        # Initialize Nominatim API
+        geolocator = Nominatim(user_agent="zip_to_geolocation")
+        
+        # Get location based on ZIP code
+        location = geolocator.geocode({"postalcode": locality_code})
+        
+        if location:
+            return location.latitude, location.longitude
+        else:
+            return None, None
+
+    def create_df_from_predict_input(self, test_data):
+        #Create a new house 
+        new_house = np.array(test_data)
+        self.df= pd.DataFrame(new_house, columns=self.predict_columns_payload)
+        return self.df
+
+    def train_workflow(self):
         self.df = create_df_from_pkl(default_path = r'data\preprocessed.pkl') # Fill your path to file
         self.get_province()
         self.assign_city_based_on_proximity_multiple_radii()
-        X,y = self.create_Xy()
-        X = self.ordinal_encoding(X)
-        X = self.onehot_encoding(X)
-        print(type(self.df))
-        print(self.df.info())
-        create_pkl_from_df(X, file_path = r'data\processed_X.pkl') # Give dataframe to save, and path to file
-        create_pkl_from_df(y, file_path = r'data\processed_y.pkl') # Give dataframe to save, and path to file
-        return
+        create_pkl_from_df(self.df, file_path = r'data\processed.pkl') # Give dataframe to save, and path to file
+        return self.df
+
+    def predict_workflow(self, test_data):
+        self.df = self.create_df_from_predict_input(test_data)
+        self.get_geolocation()
+        self.df['locality_code'] = self.df['locality_code'].astype(str)     # Convert the 'locality_code' column to string type, to function in the get province and map province methods
+        self.df['id'] = 1                                                   # Add a column 'id', with a value 1, so that the dataframe can run through the following methods
+        self.get_province()
+        self.assign_city_based_on_proximity_multiple_radii()
+        print("self.df at end of predict workflow:", type(self.df))
+        print(self.df.columns)
+        #print(self.df.info())
+        return self.df
