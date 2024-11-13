@@ -45,9 +45,9 @@ def receive_selection(selection: SelectionModel):
     predictor = Modeller(df)
     prediction = predictor.predict_new_price()
     
-    response_message = f"{response_message1} Price prediction in euro: {round(prediction[0])}"    # Generate a response message with info on the input, and the price prediction
+    response_message = f"Price prediction in euro: {round(prediction[0])}"    # Generate a response message with info on the input, and the price prediction
     
-    return {"message": response_message}                                                          # Return the result
+    return {"message": response_message}                                      # Return the result
 
 @app.post('/hello/{name}')
 def hello_name(name : str): 

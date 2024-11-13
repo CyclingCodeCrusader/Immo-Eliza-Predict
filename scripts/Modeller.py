@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from joblib import load, dump
 
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures, OneHotEncoder
@@ -13,8 +14,6 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 #from sklearn.svm import SVR
 
 from sklearn.metrics import r2_score, root_mean_squared_error, mean_absolute_error
-
-from joblib import load, dump
 
 class Modeller():
     """
