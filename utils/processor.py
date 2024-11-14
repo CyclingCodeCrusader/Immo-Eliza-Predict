@@ -85,7 +85,7 @@ class Processor():
         
     def map_province(self, locality_code):
         if locality_code.startswith('1'):
-            return 'Brussels' if int(locality_code) < 1300 else 'Brabant_Wallon'
+            return 'Brussels' if int(float(locality_code)) < 1300 else 'Brabant_Wallon'
         elif locality_code.startswith('2'):
             return 'Antwerp'
         elif locality_code.startswith('4'):
@@ -101,11 +101,14 @@ class Processor():
         elif locality_code.startswith('9'):
             return 'East_Flanders'
         elif locality_code.startswith('3'):
-            return 'Flemish_Brabant' if int(locality_code) < 3500 else 'Limburg'
+            return 'Flemish_Brabant' if int(float(locality_code)) < 3500 else 'Limburg'
         else:
             return None 
 
     def get_province(self):    
+        
+        self.df['locality_code'] = self.df['locality_code'].astype(str)     # Convert the 'locality_code' column to string type, to function in the get province and map province methods
+        
         # Creating the column province
         self.df['province'] = self.df['locality_code'].apply(self.map_province)
 
@@ -217,7 +220,6 @@ class Processor():
     def predict_workflow(self, test_data):
         self.df = self.create_df_from_predict_input(test_data)
         self.get_geolocation()
-        self.df['locality_code'] = self.df['locality_code'].astype(str)     # Convert the 'locality_code' column to string type, to function in the get province and map province methods
         self.df['id'] = 1                                                   # Add a column 'id', with a value 1, so that the dataframe can run through the following methods
         self.get_province()
         self.assign_city_based_on_proximity_multiple_radii()
