@@ -1,7 +1,7 @@
 from scripts.preprocessor import Preprocessor
 from scripts.processor import Processor
 from scripts.modeller import Modeller
-from functions.utils import create_df_from_pkl, create_pkl_from_df
+from utils.utils import create_df_from_pkl, create_pkl_from_df
 import joblib
 
 # Start of the preprocess module: calling the methods in the class Preprocessor

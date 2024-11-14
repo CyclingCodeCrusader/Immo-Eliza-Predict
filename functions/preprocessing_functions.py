@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
 
-from functions.utils import figure_barplots, figure_boxplots, barplot
+from utils.utils import figure_barplots, figure_boxplots, barplot
 
 def map_province(locality_code):
     if locality_code.startswith('1'):

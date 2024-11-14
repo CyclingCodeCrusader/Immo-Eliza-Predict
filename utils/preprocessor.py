@@ -1,6 +1,6 @@
 import pandas as pd
 from tkinter import filedialog
-from functions.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
+from utils.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
 from functions.preprocessing_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
 import pandas as pd
 import numpy as np
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
 
-from functions.utils import figure_barplots, figure_boxplots, barplot
+from utils.utils import figure_barplots, figure_boxplots, barplot
 
 
 class Preprocessor:

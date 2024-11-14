@@ -2,11 +2,11 @@ import pickle
 import pandas as pd
 import joblib
 
-from functions.utils import create_df_from_pkl
+from utils.utils import create_df_from_pkl
 from functions.train_model_functions import ordinal_encoding, OneHot_encoding
 from functions.train_model_functions import models_linear, models_polynomial, models_treebased, create_Xy, polynomial_simple, XGBoost
 from functions.train_model_functions import save_best_model, load_prediction_model
-from functions.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
+from utils.utils import open_csv_as_dataframe, create_pkl_from_df, create_df_from_pkl, barplot
 from functions.preprocessing_functions import map_province, assign_city_based_on_proximity_multiple_radii, outlier_handling_numerical, outlier_handling_categorical
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, OrdinalEncoder, PolynomialFeatures, OneHotEncoder
