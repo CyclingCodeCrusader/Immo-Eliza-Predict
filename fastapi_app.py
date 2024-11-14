@@ -5,8 +5,8 @@ import joblib
 import numpy as np
 import pandas as pd
 from functions.preprocessing_functions import map_province, get_province
-from scripts.processor import Processor
-from scripts.modeller import Modeller
+from utils.processor import Processor
+from utils.modeller import Modeller
 
 app = FastAPI()
 
