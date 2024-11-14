@@ -1,6 +1,6 @@
-from scripts.preprocessor import Preprocessor
-from scripts.processor import Processor
-from scripts.modeller import Modeller
+from utils.preprocessor import Preprocessor
+from utils.processor import Processor
+from utils.modeller import Modeller
 from utils.utils import create_df_from_pkl, create_pkl_from_df
 import joblib
 

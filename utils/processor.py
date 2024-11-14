@@ -81,7 +81,7 @@ class Processor():
         self.predictor_columns = self.numerical_columns + self.ordinal_encode_columns + ['has_assigned_city_10'] + ['province']
 
         self.predict_columns_payload = ['bedroom_count', 'net_habitable_surface', 'facade_count', 'land_surface', 
-                        'kitchen_type_ord_enc', 'building_condition_ord_enc', 'epc_ord_enc', 'locality_code'] #'has_assigned_city_10', 
+                        'kitchen_type_ord_enc', 'building_condition_ord_enc', 'epc_ord_enc', 'locality_code','selected_model'] #'has_assigned_city_10', 
         
     def map_province(self, locality_code):
         if locality_code.startswith('1'):

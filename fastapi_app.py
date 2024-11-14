@@ -1,10 +1,6 @@
 # fastapi_app.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import joblib
-import numpy as np
-import pandas as pd
-from functions.preprocessing_functions import map_province, get_province
 from utils.processor import Processor
 from utils.modeller import Modeller
 
@@ -22,6 +18,7 @@ class SelectionModel(BaseModel):
     building_condition_ord_enc : int
     epc_ord_enc : int
     locality_code: int
+    selected_model : str
 
 # Endpoint to receive the selected options
 @app.post("/api/predict")
@@ -38,7 +35,8 @@ def receive_selection(selection: SelectionModel):
             selection.kitchen_type_ord_enc, 
             selection.building_condition_ord_enc, 
             selection.epc_ord_enc,
-            selection.locality_code
+            selection.locality_code, 
+            selection.selected_model
             ]]
 
     # Call methods from the Processor class and return a df
@@ -49,8 +47,8 @@ def receive_selection(selection: SelectionModel):
     predictor = Modeller(df)
     prediction = predictor.predict_new_price()
     
-    response_message = f"Price prediction in euro: {round(prediction[0])}"    # Generate a response message with info on the input, and the price prediction
-    
+    response_message = f"€ {prediction[0]:,.0f}".replace(",", " ")    # Generate a response message with info on the input, and the price prediction
+
     return {"message": response_message}                                      # Return the result
 
 @app.post('/hello/{name}')
