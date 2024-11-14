@@ -5,13 +5,14 @@ import joblib
 import numpy as np
 import pandas as pd
 from functions.preprocessing_functions import map_province, get_province
-from scripts.processor import Processor
-from scripts.modeller import Modeller
+from utils.processor import Processor
+from utils.modeller import Modeller
 
 app = FastAPI()
 
 # Define the request model
-# Creating class to define the request body and the type hints of each attribute
+# Creating class to define the request body
+# and the type hints of each attribute
 class SelectionModel(BaseModel):
     bedroom_count : int
     net_habitable_surface: float
