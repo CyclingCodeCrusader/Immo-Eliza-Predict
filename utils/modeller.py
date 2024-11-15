@@ -79,6 +79,8 @@ class Modeller():
         'Namur': [0,0,0,0,0,0,0,0,1,0], 
         'West_Flanders': [0,0,0,0,0,0,0,0,0,1]}
 
+        self.trained_models_folder = r"trained_models/"
+
         self.models_list = {'Best linear regression model':['best_linreg_pipeline.joblib','best_linreg_pipeline_fitted_feature_columns.joblib'], 
                             'Best polynomial regression model':['best_polyreg_pipeline.joblib','best_polyreg_pipeline_fitted_feature_columns.joblib'], 
                             'Best tree-based regression model':['best_treereg_pipeline.joblib','best_treereg_pipeline_fitted_feature_columns.joblib']}
@@ -185,10 +187,10 @@ class Modeller():
 
         # Storing the feature columns used to re_use in the predict function
         self.fitted_feature_columns = X_train.columns.tolist()
-
+        
         # Save the best pipeline with joblib
-        dump(self.best_pipeline, 'best_linreg_pipeline.joblib')     
-        dump(self.fitted_feature_columns, 'best_linreg_pipeline_fitted_feature_columns.joblib')
+        dump(self.best_pipeline, f'{self.trained_models_folder}best_linreg_pipeline.joblib')     
+        dump(self.fitted_feature_columns, f'{self.trained_models_folder}best_linreg_pipeline_fitted_feature_columns.joblib')
 
         return
     
@@ -246,8 +248,8 @@ class Modeller():
         self.fitted_feature_columns = X_train.columns.tolist()
 
         # Save the best pipeline with joblib
-        dump(self.best_pipeline, 'best_polyreg_pipeline.joblib')     
-        dump(self.fitted_feature_columns, 'best_polyreg_pipeline_fitted_feature_columns.joblib')
+        dump(self.best_pipeline, f'{self.trained_models_folder}best_polyreg_pipeline.joblib')     
+        dump(self.fitted_feature_columns, f'{self.trained_models_folder}best_polyreg_pipeline_fitted_feature_columns.joblib')
 
         return
     
@@ -317,8 +319,8 @@ class Modeller():
         self.fitted_feature_columns = X_train.columns.tolist()
 
         # Save the best pipeline with joblib
-        dump(self.best_pipeline, 'best_treereg_pipeline.joblib')     
-        dump(self.fitted_feature_columns, 'best_treereg_pipeline_fitted_feature_columns.joblib')
+        dump(self.best_pipeline, f'{self.trained_models_folder}best_treereg_pipeline.joblib')     
+        dump(self.fitted_feature_columns, f'{self.trained_models_folder}best_treereg_pipeline_fitted_feature_columns.joblib')
 
         return
 
@@ -341,23 +343,39 @@ class Modeller():
             if self.df.loc[0,'province'] == key:
                 province_df = pd.DataFrame(np.array(value).reshape(1,-1), columns=self.province_columns)
         self.df = pd.concat([self.df, province_df], axis = 1)
-              
+        print("df na map province to onehot : ", self.df)      
         return self.df
 
-    def predict_new_price(self):
+    def run_select_models(self):
+        # Get the model pipeline and fitted feature columns that were generated during training, based on the model selected in the streamlit input
+        self.prediction_summary = {}
+
+        # Run all models:
+        if self.df.loc[0,'selected_model'] == 'Use all trained models':
+            for key, value in self.models_list.items():
+                self.model_to_load = self.trained_models_folder + value[0]
+                self.feature_columns_to_load = self.trained_models_folder + value[1]
+                self.prediction = self.predict_new_price(self.model_to_load, self.feature_columns_to_load)
+                self.prediction_summary[key] = self.prediction[0]
+        
+        # Run selected model:
+        for key, value in self.models_list.items():
+            if self.df.loc[0,'selected_model'] == key:
+                self.model_to_load = self.trained_models_folder + value[0]
+                self.feature_columns_to_load = self.trained_models_folder + value[1]
+                self.prediction = self.predict_new_price(self.model_to_load, self.feature_columns_to_load)
+                self.prediction_summary[key] = self.prediction[0]
+        
+        # Save the predictions as csv file to have quick view
+        # Commented out because I now have the float value only (so a 0D), rather the required 1D or 2D array for numpy
+        #         np.savetxt("predictions.csv", self.prediction_summary, delimiter=",", fmt="%.2f")
+
+        return self.prediction_summary
+    
+    def predict_new_price(self, model_to_load, feature_columns_to_load):
         
         print("df at start of predict_new_price: ", self.df.columns)
         
-        # Convert the province to a OneHot code
-        self.df = self.map_province_to_onehot()
-        print("df na map province to onehot en terug in predict_new_price method: ", self.df)
-
-        # Gt the model pipeline and fitted feature columns that were generated during training, based on the model selected in the streamlit input
-        for key, value in self.models_list.items():
-            if self.df.loc[0,'selected_model'] == key:
-                model_to_load = value[0]
-                feature_columns_to_load = value[1]
-
         # Load feature columns and model pipeline:
         self.loaded_pipeline = load(model_to_load)     
         self.fitted_feature_columns = load(feature_columns_to_load)
@@ -368,10 +386,6 @@ class Modeller():
         print("self X na aanpassen aan fitted_feature_columns", self.X)
         
         self.prediction = self.loaded_pipeline.predict(self.X)
-        print("Type of predictions: ", type(self.prediction))
-        
-        # Save the predictions as csv file to have quick view
-        np.savetxt("predictions.csv", self.prediction, delimiter=",", fmt="%.2f")
 
         return self.prediction
 
@@ -405,9 +419,9 @@ class Modeller():
         self.ordinal_encoding()
         self.onehot_encoding()
 
-        #self.best_linreg_model_pipeline(self.X, self.y)
+        self.best_linreg_model_pipeline(self.X, self.y)
         #self.best_polyreg_model_pipeline(self.X, self.y)
-        self.best_treereg_model_pipeline(self.X, self.y)
+        #self.best_treereg_model_pipeline(self.X, self.y)
         #self.best_gradientboost_model_pipeline(self.X, self.y)
 
         return

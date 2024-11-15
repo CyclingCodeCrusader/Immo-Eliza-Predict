@@ -45,9 +45,14 @@ def receive_selection(selection: SelectionModel):
 
     # Call methods from the Modeller class and return a prediction to pass to the message output for api/streamlit
     predictor = Modeller(df)
-    prediction = predictor.predict_new_price()
+    # Convert the province to a OneHot code
+    predictor.map_province_to_onehot()
+    # call function to run all models or a select model
+    prediction = predictor.run_select_models()
     
-    response_message = f"€ {prediction[0]:,.0f}".replace(",", " ")    # Generate a response message with info on the input, and the price prediction
+    #prediction = predictor.predict_new_price()
+    response_message = prediction
+    #response_message = f"€ {prediction:,.0f}".replace(",", " ")    # Generate a response message with info on the input, and the price prediction
 
     return {"message": response_message}                                      # Return the result
 

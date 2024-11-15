@@ -1,7 +1,7 @@
 import streamlit as st
 
-def app():
-    st.title("Model Building")
-    st.write("Build models and check performances!")
-
-st.title("Model Building")
+# Page header
+container = st.container()
+col1, col2 = container.columns([1, 5])  # Adjust proportions of columns
+col1.image(r"assets\BeCodeHarmonyRealEstateLogo.jpg", width=60)
+col2.subheader("Model Building", divider="orange")

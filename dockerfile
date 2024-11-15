@@ -30,4 +30,4 @@ EXPOSE 10000
 #CMD ["sh", "-c", "uvicorn app:app --host 0.0.0.0 --port 8000 & streamlit run predictor_streamlit.py --server.port=10000 --server.address=0.0.0.0"]
 
 # Run both FastAPI and Streamlit apps
-CMD ["sh", "-c", "uvicorn fastapi_app:app --host 0.0.0.0 --port 8000 & streamlit run streamlit_selectpredict.py --server.port=10000 --server.address=0.0.0.0"]
+CMD ["sh", "-c", "uvicorn fastapi_app:app --host 0.0.0.0 --port 8000 & streamlit run streamlit_navigation.py --server.port=10000 --server.address=0.0.0.0"]
