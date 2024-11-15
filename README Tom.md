@@ -1,5 +1,6 @@
 ﻿# Immo Eliza Predict - Model Deployment
-    ![Crystal ball](https://i.gifer.com/tsX.gif)
+![Crystal_ball!](https://i.gifer.com/tsX.gif)
+
 ## The Mission
 
 For real estate company Immo Eliza, Harmony Real Estate has created an API so their web developers can access the predictions whenever they need to. Additionally, a small web application for the non-technical employees and possibly their clients has been created. The API and the web application are intertwined but separate.
