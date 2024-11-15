@@ -3,8 +3,12 @@
 import streamlit as st
 import requests
 
+def app():
+    st.title("Quick predict")
 
-# Sidebar
+st.title("Quick prediction tool")
+
+"""# Sidebar
 st.sidebar.title("Immo Eliza")
 st.sidebar.image(r"BeCodeHarmonyRealEstateLogo.jpg", width=100)
 
@@ -12,21 +16,21 @@ st.sidebar.subheader('Web Scraper')
 st.sidebar.subheader('Data Cleaner')
 st.sidebar.subheader('Data Analyzer')
 st.sidebar.subheader('Modeller')
-st.sidebar.subheader('Predictor')
+st.sidebar.subheader('Predictor')"""
 
 
 # Input parameters
 container1 = st.container()
 col1,col2, col3=container1.columns([1,1,1])
 #col2.image(r"assets\house.jpg", width = 200)
-col2.subheader("Predictor")
+col2.subheader("Predictor", divider="gray")
 
 container = st.container()
 col1, col2, col3, col4 = container.columns([1, 1, 1, 1])  # Adjust proportions of columns
 
 # Selection of type of property. Note that nothing is done with this, as there are only houses in the database I use.
 house_options = ['House', 'Appartment']
-radio_type = col1.radio('Type', house_options, key = 'radio_type', index = 0)
+radio_type = col1.radio('Type', house_options, key = 'radio_type_1', index = 0)
 
 facade_options = ['Rijhuis', 'Half open bouw', 'Open bouw']
 facade_count_selected = col3.radio('Facades', facade_options, key = 'radio_nr_of_facades')
@@ -65,14 +69,8 @@ kitchen_type_ord_enc_options = ['Not installed', 'Installed', 'Semi equipped', '
 kitchen_type_ord_enc_selected = col3.radio("State of the kitchen", kitchen_type_ord_enc_options, key='radio_kitchen_type')
 kitchen_type_ord_enc = kitchen_type_ord_enc_options.index(kitchen_type_ord_enc_selected)+1 # add 1 to go from index to the number of facades
 
-
-st.subheader("", divider="red")
 container = st.container()
-col1, col2 = container.columns([1, 1])  # Adjust proportions of columns
-
-# Selection of model.
-model_options = ['Best linear regression model', 'Best polynomial regression model', 'Best tree-based regression model']
-selected_model = col1.radio('Select prediction model', model_options, key = 'model_type', index = 0)
+col1, col2, col3 = container.columns([1, 1, 1])  # Adjust proportions of columns
 
 # Define the FastAPI backend URL
 API_URL = "http://localhost:8000/api/predict"
@@ -87,8 +85,7 @@ if col2.button('Submit for prediction', icon=":material/query_stats:"):
                "epc_ord_enc": epc_ord_enc, 
                "building_condition_ord_enc": building_condition_ord_enc, 
                "kitchen_type_ord_enc": kitchen_type_ord_enc, 
-               "locality_code": locality_code,
-               "selected_model": selected_model}
+               "locality_code": locality_code}
     
     # Send a POST request to the FastAPI backend
     response = requests.post(API_URL, json=payload)
@@ -97,6 +94,6 @@ if col2.button('Submit for prediction', icon=":material/query_stats:"):
     if response.status_code == 200:
         st.write("Prediction of price:")
         st.subheader(response.json()["message"])        
-        
+        st.balloons()
     else:
         st.write("Error:", response.status_code)
